@@ -1,8 +1,14 @@
 ﻿
+using ProjetConsole.Metier;
+using ProjetConsole.Model;
 using ProjetDLL;
-using ProjetDLL.ConceptObjet.Encapsulation;
+using ProjetDLL.ConceptsObjets.Abstraction;
+using ProjetDLL.ConceptsObjets.Association;
+using ProjetDLL.ConceptsObjets.Encapsulation;
+using ProjetDLL.ConceptsObjets.Heritage;
 using ProjetVB.DLL;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -36,6 +42,7 @@ namespace ProjetConsole
         public string nom;
         public List<Authorisations> authorisations;
     }
+
     class Program
     {
         static void Main(string[] args)
@@ -46,7 +53,7 @@ namespace ProjetConsole
              * plusieurs lignes
              */
 
-
+            
             Console.WriteLine("test de c#");
             Tools.MaMethode();
             Class1.MaMethode();
@@ -464,62 +471,523 @@ namespace ProjetConsole
 
 
 
+
             #endregion
 
-            #region Concept objets
+            #region Concepts objets
 
-            //Encapsulation - Heritage - Abstraction - Polymorphisme - Agrégation 
+            //Encapsulation - Héritage - Abstraction - Polymorphisme - Agrégation (association - composition)
 
-            Console.WriteLine("***********************CCONCEPT OBJETS**************************");
+            Console.WriteLine("*************CONCEPTS OBJETS************");
 
             double longueur = 20;
             double largeur = 15;
-            double surface = Surface(longueur , largeur);
+            double surface = Surface(longueur, largeur);
+            
 
             double longueur1 = 20;
             double largeur1 = 15;
-            double surface1 = Surface(longueur1 , largeur1);
+            double surface1 = Surface(longueur, largeur);
 
-            //Mise en place de l'encapsulation 
-            //1 - Rasembler dans une seule et même classe les paramètres et les fonctions qui concernent le même objet 
-            //2 - Empêcher l'accès public aux attributs
-            //3 - L'accès aux attributs d'une classe doit forcément passer par les Getters / Setters;
+            //Mise en place de l'encapsulation
+            //1- Rassembler dans une seule et même classe les params et les fonctions qui concernent le même objet
+            //2- Empecher l'accès public aux attributs
+            //3- L'accés aux attributs d'une classe doit forcément passé par les Getteurs / Setteurs
 
-            /* Rectangle rec = new Rectangle();
-             rec.SetLargeur(15);
-             rec.SetLongueur(20);
-             rec.Surface();
+            //Rectangle rec = new Rectangle();
+            //rec.SetLargeur(15);
+            //rec.SetLargeur( 20);
+            //rec.Surface();
 
-             Rectangle rec2 = new Rectangle();
-             rec.SetLargeur(-15);
-             rec.SetLongueur(50);
-             rec2.Surface();
-             Console.WriteLine(rec2.GetLargeur());*/
+            //Rectangle rec2 = new Rectangle();
+            //rec2.SetLargeur(-15);
+            //rec2.SetLargeur(50);
+            //rec2.Surface();
 
+            //Console.WriteLine(rec2.GetLargeur());
 
-            //toutes classes possède un constructeur par défaut - Une méthode qui porte le nom de la classe
+            //Toute classe possède un constructeur par defaut - Une méthode qui porte le nom de la classe
 
-            CompteBancaire compte = new CompteBancaire();
+            CompteBancaire compte = new CompteBancaire(); //1
             compte.Numero = "145gty";
             compte.Solde = 1500;
+
+            CompteBancaire compte2 = new CompteBancaire("sdd122", 2500); //2
 
             compte.Depot(1000);
             compte.Retrait(500);
 
-            CompteBancaire compte2 = new CompteBancaire("sdd122", 2500);
             Console.WriteLine(compte2);
 
+            CompteBancaire compte3 = new CompteBancaire(); //3
+            Console.WriteLine($"Compte3 avec constructeur par defaut: {compte3}");
 
-            CompteBancaire compte3 = new CompteBancaire();
-            Console.WriteLine($"Compte3 avec constructeur par défautl : {compte3}");
+            CompteBancaire compte4 = new CompteBancaire("dhdf12", 2500); //4
 
+            Console.WriteLine("Compte2 est égale à Compte4: "+compte2.Equals(compte4));
+
+            //Héritage
+
+            Animal animal = new Animal();
+            animal.Nom = "Animal";
+            animal.Age = 5;
+
+            Chat chat = new Chat();
+            chat.Nom = "chat";
+            chat.Age = 3;
+            chat.Identite();
+
+            Animal animal1 = new Animal("animal1", 5);
+            Chat chat2 = new Chat("chat2", 4);
+
+            Chien chien = new Chien("chien", 4, "caniche");
+
+            Animal animal3 = new Animal();
+            Animal animal4 = new Chat();
+            Animal animal5 = new Chien();
+
+            //Un objet de type animal peut prendre plusieurs formes - Polymorphisme - est une conséquence de l'héritage
+            //Intérêt: pouvoir manipuler des objets sans se soucier de leur type
+
+            string[] tabString = new string[2];
+            tabString[0] = "test";
+            tabString[1] = "test1";
+
+            //Collection polymorphique
+            Animal[] animaux = new Animal[3];
+            animaux[0] = new Animal();
+            animaux[1] = new Chat();
+            animaux[2] = new Chien();
+
+            object obj = 1;
+            object obj1 = "chaine";
+            object obj2 = new Animal();
+            object obj3 = true;
+
+            Identite(animal1);
+            Identite(chat);
+            Identite(chien);
+
+
+            //Abstraction
+            //Une classe abstraite est une classe qu'on ne peut pas instancier
+
+            Personne per = new Femme();
+            Personne per2 = new Homme("n", "p");
+
+            Homme homme = new Homme("nom", "prenom");
+            //Association
+            Client client = new Client();
+            client.Nom = "nomClient";
+            client.Adresse = new Adresse() { Num = 15, Street = "rue de Paris 75010 Paris" }; //utilisation d'initialisateur automatique
+
+            //ContactDAO dao = new ContactDAO();
+
+            //Console.WriteLine("Quel est l'id du contact:");
+            //int id = Convert.ToInt32(Console.ReadLine());
+            //Contact contact = dao.GetById(id);
+            //Console.WriteLine(contact);
 
 
             #endregion
 
+            #region Exceptions
+
+            Console.WriteLine("*************EXCEPTIONS**************");
+            //Exception: c'est une erreur qui provoque l'arrêt de l'application
+            //Pour eviter l'arrêt de l'application, on doit gérer l'exception
+            //Pour gérer une exception on utilise le try - catch
+
+            int nombre = 10;
+            int[] tabEntier = { 1, 2 };
+            
+
+            try
+            {
+                //Console.WriteLine(tabEntier[2]);
+                Console.WriteLine(nombre / 2);
+                
+            }
+            
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception traitée");
+                Console.WriteLine("Message de l'exception: "+ex.Message);
+                Console.WriteLine("Trace: "+ex.StackTrace);
+            }
+            finally
+            {
+                //Le bloc finally sert à libérer les ressources eventuellement utilisées dans le bloc try
+                Console.WriteLine("Bloc finally...............");
+            }
+
+           
+
+            
+            try
+            {
+                Division(0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            CompteBancaire monCompte = new CompteBancaire("145hgt", 1000);
+
+            try
+            {
+                monCompte.Retrait(2000);
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+            
+
+            Console.WriteLine("La suite de l'application.........");
+
+            #endregion
+
+            #region Classe String
+
+            Console.WriteLine("************CLASSE STRING***************");
+
+            string paragraph = " ceci est une chaine "; //Possibilité de créer des objets string via une chaine littérale 
+            paragraph = paragraph.ToUpper();
+
+            Console.WriteLine(paragraph);
+            //Les objets de type string sont immuables. Une fois crées on ne peut pas les modifier en mémoire
+
+            string paragraph2 = " CECI EST UNE CHAINE ";
+
+            //Comparaison des objets string
+            Console.WriteLine("Comparaison du contenu: "+paragraph.Equals(paragraph2));
+            Console.WriteLine("Comparaison des références: "+object.ReferenceEquals(paragraph, paragraph2));
+
+            //Quelques méthodes
+            Console.WriteLine("Taille du paragraph: "+paragraph.Length); // 21 - un objet string est un tableau de char
+            Console.WriteLine("Premier char du paragraph: "+paragraph[0]); // espace
+            Console.WriteLine("Paragraph commence par C ?: "+paragraph.StartsWith("C")); //false
+            Console.WriteLine("Paragraph se termine par un espace?: "+paragraph.EndsWith(" ")); //true
+            Console.WriteLine("Eliminer les espaces de début et de fin du paragraph: "+paragraph.Trim());
+            Console.WriteLine("Remplacer une chiane par une autre: "+paragraph.Replace("UNE CHAINE","UN PARAGRAPH" ));
+
+            //Extraction de sous chaines
+            Console.WriteLine("Sous chaine1: " + paragraph.Substring(1));
+            Console.WriteLine("Sous chaine2: " + paragraph.Substring(1, 3)); //CEC
+
+            //Chaine CSV
+            //Découoage d'une chaine: Split
+            string chaineCSV = "dawan;jehann;paris";
+            string[] tabCSV = chaineCSV.Split(';');
+            foreach (var item in tabCSV)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Join
+            string[] mots = { "ceci", "est", "un", "join" };
+            string phrase = string.Join(" ", mots);
+
+            Console.WriteLine($"Phrase: {phrase}");
+
+            Console.WriteLine("Nombre de mots: " + MesMethodes.NombreMots("ceci est une chaine")); //4
+            Console.WriteLine("Inverse de bonjour: "+MesMethodes.InverserChaine("bonjour"));
+            Console.WriteLine("ressasser est un palindrôme: "+MesMethodes.VerifPalindrome("ressasser"));
+            #endregion
+
+            #region Collections
+
+            Console.WriteLine("********************COLLECTIONS*****************");
+            //Collections: se sont des tableaux dynamiques - leur taille n'est pas fixe
+
+            //Collections faiblement typées
+
+            //ArrayList
+            Console.WriteLine("**************ARRAYLAIST");
+            ArrayList tabDynamic = new ArrayList();
+
+            Console.WriteLine("Taille du tableau dynamique: "+tabDynamic.Count); //0
+            tabDynamic.Add(5);
+            tabDynamic.Add("test");
+            tabDynamic.Add(true);
+
+            Console.WriteLine("Taille du tableau après ajout: "+tabDynamic.Count); //3
+            Console.WriteLine("Tableau contient la chaine test? :"+tabDynamic.Contains("test")); //true
+
+            tabDynamic.Remove("test");
+
+            Console.WriteLine("Tableau contient la chaine test après suppression?: "+tabDynamic.Contains("test")); //false
+
+            Console.WriteLine("Index de true dans le tableau: "+tabDynamic.IndexOf(true)); //1
+
+            tabDynamic.Insert(1, "dawan");
+
+            Console.WriteLine("Index de true après appel de Insert: "+tabDynamic.IndexOf(true)); //2
+
+            foreach (var item in tabDynamic)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Pile - Stack - Stockage LIFO : Last In First Out
+            Console.WriteLine("*****************STACK- PILE");
+
+            Stack pile = new Stack();
+
+            pile.Push(5);
+            pile.Push("test");
+            pile.Push(true);
+            pile.Push(15.5);
+
+            Console.WriteLine("Nom bre d'éléments dans la pile!: "+pile.Count); //
+
+            Console.WriteLine("La pile contient 15.5 ?: "+pile.Contains(15.5)); //true
+
+            pile.Pop();
+
+            Console.WriteLine("La pile contient 15.5 après appel de POP?: "+pile.Contains(15.5)); //false
+
+            Console.WriteLine("Dernier élément de la pile: "+pile.Peek()); //true
+
+            //Queue: stockage FIFO: First In First Out 
+
+            Console.WriteLine("*****************QUEUE");
+            Queue fifo = new Queue();
+
+            fifo.Enqueue(5);
+            fifo.Enqueue("test");
+            fifo.Enqueue(true);
+
+            Console.WriteLine("Taille de fifo: "+fifo.Count); //3
+
+            Console.WriteLine("Fifo contient le chiffre 5? :"+fifo.Contains(5)); //5
+
+            fifo.Dequeue();
+
+            Console.WriteLine("Fifo contient le chiffre 5 après appel de Dequeue? : "+fifo.Contains(5)); //false
+
+            //Collections fortement typées
+
+            //List
+            Console.WriteLine("**************LIST");
+            List<string> jours = new List<string>();
+
+            Console.WriteLine("Taille de la liste: "+jours.Count); //0
+
+            jours.Add("Lundi");
+            jours.Add("Mardi");
+            jours.Add("Mercredi");
+            Console.WriteLine("La liste contien Mardi?: "+jours.Contains("Mardi")); //true
+
+            jours.Remove("Mardi");
+
+            Console.WriteLine("La liste contient Mardi après appel de Remove?: "+jours.Contains("Mardi")); //false
+
+            foreach (string item in jours)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Supprimer le contenu de la liste
+            jours.Clear();
+
+            Console.WriteLine("Taille de liste après appel de clear: "+jours.Count); //0
+
+            //Dictionary: Stockage de type clé=valeur
+            Console.WriteLine("***********DICTIONNAIRE");
+            Dictionary<int, string> dictionnaire = new Dictionary<int, string>();
+
+            Console.WriteLine("Taille du dictionnaire: "+dictionnaire.Count); //0
+            dictionnaire.Add(10, "admin");
+            dictionnaire.Add(150, "password");
+
+            if (dictionnaire.ContainsKey(10))
+            {
+                Console.WriteLine(dictionnaire[10]);
+            }
+
+            if (dictionnaire.ContainsKey(100))
+            {
+                Console.WriteLine(dictionnaire[100]);
+            }
+            else
+            {
+                Console.WriteLine("Le dictionnaire ne contient pas la clé 100");
+            }
+
+            //Afficher les valeurs + clés du dictionnaire
+
+            foreach (int cle in dictionnaire.Keys)
+            {
+                Console.WriteLine($"Cle: {cle} - {dictionnaire[cle]}");
+            }
+
+            Dictionary<string, List<CompteBancaire>> mesComptes = new Dictionary<string, List<CompteBancaire>>();
+
+            List<CompteBancaire> compteDebiteurs = new List<CompteBancaire>();
+            compteDebiteurs.Add(new CompteBancaire("125dsd", -1500));
+            compteDebiteurs.Add(new CompteBancaire("fre158", -2500));
+            compteDebiteurs.Add(new CompteBancaire("ddf45", -4500));
 
 
 
+            List<CompteBancaire> comptesCrediteurs = new List<CompteBancaire>();
+            comptesCrediteurs.Add(new CompteBancaire("587dsqdq", 1500));
+            comptesCrediteurs.Add(new CompteBancaire("fgt478", 2500));
+            comptesCrediteurs.Add(new CompteBancaire("gvt", 4500));
+
+            //Ajout des listes dans le dictionnaire
+            mesComptes.Add("debiteurs", compteDebiteurs);
+            mesComptes.Add("crediteurs", comptesCrediteurs);
+
+            
+
+            //Afficher les comptes créditeurs du dictionnaire
+
+            if (mesComptes.ContainsKey("crediteurs"))
+            {
+                foreach (var item in mesComptes["crediteurs"])
+                {
+                    Console.WriteLine(item);
+                }      
+            }
+
+
+            #endregion
+
+            #region Fichiers
+            Console.WriteLine("**************FICHIERS***********");
+
+            // .net fournit un certais nombre de classes qui nous permettent de manipuler les fichier et les dossiers
+
+            // Dossier : Directory 
+            // Fichiers : File et FileInfo , les 2 classes présentent les même méthodes à la seule différence, elles sont static pour la classe File et d'instance pour la classe FileInfo;
+
+            // Pour les opérations de lectures, écritures : StreamWriter - StreamReader;
+
+            //Caractères d'échappement \n : retour à la ligne ---- \t: tabulation ---- \\ échapper le \
+
+            Console.WriteLine("\tBonjour, \nje suis en formation chez Dawan.\nFormation c#");
+
+            //chaine verbatim
+            Console.WriteLine(@"    Bonjour,
+Je suis en formation chez Dawan.
+Formation c#");
+
+            //Création d'un répertoire 
+            Directory.CreateDirectory("dossier"); //chemin relatif à l'exécutable du projet bin/Debug
+            //Directory.CreateDirectory("C:\\dossier");  chemin absolue
+            Directory.CreateDirectory(@"C:\dossier"); // chemin absolue
+
+
+            //Récupérer les fichiers d'un dossier
+            string[] files = Directory.GetFiles(@"C:\dossier\");
+
+            foreach (var f in files)
+            {
+                Console.WriteLine(f);
+            }
+            string fichierSource = @"C:\dossier\coucou.txt";
+            string fichierCible = @"C:\dossier\coucouCopy.txt";
+
+            try
+            {
+                File.Copy(fichierSource, fichierCible);
+            }
+            catch (Exception e)
+            {
+                if (File.Exists(fichierCible))
+                {
+                    File.Delete(fichierCible);
+                    Console.WriteLine($"Fichier {fichierCible} supprimé");
+                }
+            }
+
+            //Utilisation de FileInfo pour récupérer les infos concernant un fichier bien particulier
+
+            FileInfo fileInfo = new FileInfo(@"C:\dossier\coucou.txt");
+            Console.WriteLine("Heure de création du fichier : " + fileInfo.CreationTime);
+            Console.WriteLine("Heure de dernière modification du fichier : " + fileInfo.LastWriteTime);
+            Console.WriteLine("Heure de dernière accès du fichier : " + fileInfo.LastAccessTime);
+            Console.WriteLine("Extensions du fichier : " + fileInfo.Extension);
+            Console.WriteLine("Taille en octets du fichier : " + fileInfo.Length);
+
+            //Lecture - Ecriture de fichiers
+            //Flux : canal ente la sourve et la destination
+            //1 - Charger le fichier dans le flux(lecture/ecriture)
+            //2 - Execution des opérations (lecture/ecriture)
+            //3 - Fermeture du flux
+
+
+            StreamWriter streamWriter = new StreamWriter(fichierSource);
+            streamWriter.Write("Salut Muhammad");
+            streamWriter.Close();
+
+            StreamReader streamReader = new StreamReader(fichierSource);
+            string contenu = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            Console.WriteLine(contenu);
+
+            //Utilisation de la classe Tools définie dans le projet DLL
+            Tools.EcritureFichier(fichierSource, "\nWesh le s ça dit quoi?");
+            Console.WriteLine(Tools.LectureFichier(fichierSource));
+
+
+            #endregion
+
+            #region Sérialisation
+
+            //Sérialisation est un mécanisme qui nous permet de sauvegarder un objet dans un fichier
+            //3 types de sérialisations possibles en .net
+            //Binaire : BinaryFormatter
+            //XML: XmlSerializer
+            //JSON: DataContractJsonSerializer
+
+            List<CompteBancaire> liste = new List<CompteBancaire>();
+            liste.Add(new CompteBancaire("151dfg", 4500));
+            liste.Add(new CompteBancaire("556dgd", 5000));
+            liste.Add(new CompteBancaire("762sfgs", 7500));
+            liste.Add(new CompteBancaire("397zera", 8900));
+
+            //FileStream , MemoryStream
+            Console.WriteLine("**************SERIALISATION BINAIRE*********************");
+            Tools.ExportBIN(fichierSource, liste);
+
+            List<CompteBancaire> listBin = Tools.ImportBin(fichierSource);
+
+            foreach (var item in listBin)
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.WriteLine("******************Sérialisation XML*******************");
+
+            Tools.ExportXml(fichierSource, liste);
+
+            List<CompteBancaire> listXml = Tools.ImportXml(fichierSource);
+
+            foreach (var item in listXml)
+            {
+                Console.WriteLine(item);
+            }
+
+            Console.WriteLine("**************SERIALISATION JSON*******************");
+
+            Tools.ExportJson(fichierSource, liste);
+
+            List<CompteBancaire> listJson = Tools.ImportJson(fichierSource);
+
+            foreach (var item in listJson)
+            {
+                Console.WriteLine(item);
+            }
+
+
+            #endregion
 
 
             //Maintenir la console active
@@ -528,9 +996,56 @@ namespace ProjetConsole
         }
 
         private static double Surface(double longueur, double largeur)
-            {
-                return longueur * largeur ;
-            }
+        {
+            return longueur * largeur;
+        }
 
+        //public static void Identite(Chat chat)
+        //{
+        //    chat.Identite();
+        //}
+
+        //public static void Identite(Chien chien)
+        //{
+        //    chien.Identite();
+        //}
+
+        //Méthode polymorphique
+
+        public static void Identite(Animal animal)
+        {
+            animal.Identite();
+        }
+
+
+       /// <summary>
+       /// Cette méthode peut générer une exception de type DivideByZero
+       /// </summary>
+       /// <param name="x"></param>
+        public static void Division(int x)
+        {
+            //Option1: traiter l'exception dans la méthode
+            //try
+            //{
+            //    Console.WriteLine(10 / x);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Exception traitée par la méthode.......");
+            //}
+
+            //Option2: l'exception non traitée par la méthode
+            //La méthode remonte l'exception à l'utilisateur
+            if (x != 0)
+            {
+                Console.WriteLine(10 / x);
+            }
+            else
+            {
+                //throw: permet de déclecher une exception - permet de remonter l'exception
+                throw new Exception();
+            }
+            
+        }
     }
 }

@@ -138,5 +138,36 @@ namespace ProjetConsole
 
             return prod;
         }
+
+        //Méthode qui renvoie le nombre de mots contenus dans une chaine
+
+        public static int NombreMots(string chaine)
+        {
+            chaine = chaine.Trim();
+            chaine = chaine.Replace("  ", " ");
+            string[] tab = chaine.Split(' ');
+            return tab.Length;
+        }
+
+        //Méthode qui renvoie la chaine inversée
+        public static string InverserChaine(string chaine)
+        {
+            string chaineInverser = "";
+            for (int i = chaine.Length-1; i >= 0; i--)
+            {
+                chaineInverser += chaine[i];
+            }
+
+            return chaineInverser;
+        }
+
+        //Méthode qui vérifie si un mot est un palindrôme: chaine qui se lit de la même façon ds les 2 sens: sms, sos
+        public static bool VerifPalindrome(string chaine)
+        {
+            //La méthode vérifie si la chaine fournie est égale à son inverse
+            return chaine.Equals(InverserChaine(chaine));
+        }
     }
 }
+
+//Visibilité [static] type_retour(void) Nom_Methode(paramétres){ instructions; }

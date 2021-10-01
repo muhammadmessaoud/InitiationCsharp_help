@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MesMethodes.cs" />
+    <Compile Include="Metier\ContactDAO.cs" />
+    <Compile Include="Metier\ContactFichier.cs" />
+    <Compile Include="Metier\IContact.cs" />
+    <Compile Include="Model\Contact.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +63,9 @@
       <Project>{9e077753-2694-4488-b2a1-31cd33409496}</Project>
       <Name>ProjetVB.DLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DAO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
